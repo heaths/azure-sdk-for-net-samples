@@ -35,10 +35,7 @@ ENV DOTNET_SDK_VERSION=${DOTNET_SDK_VERSION}
 RUN curl -L https://dot.net/v1/dotnet-install.sh | bash -e -s -- --install-dir /usr/share/dotnet --version $DOTNET_SDK_VERSION \
  && ln -s /usr/share/dotnet/dotnet /usr/bin/dotnet \
  # Trigger first run experience.
- && dotnet --info
-
-# Copy samples.
-COPY --chown=${NB_UID} ["README.md", "sdk/", "${HOME}/notebooks/"]
+ && dotnet sdk check
 
 # Install user packages.
 USER ${NB_UID}
@@ -53,5 +50,9 @@ RUN dotnet interactive jupyter install
 
 # Enable telemetry once Jupyter is installed.
 ENV DOTNET_INTERACTIVE_CLI_TELEMETRY_OPTOUT=false
+
+# Copy samples.
+COPY --chown=${NB_UID} README.md ${HOME}/notebooks/
+COPY --chown=${NB_UID} sdk/ ${HOME}/notebooks/sdk/
 
 WORKDIR ${HOME}/notebooks/

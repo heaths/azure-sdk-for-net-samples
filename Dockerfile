@@ -38,7 +38,7 @@ RUN curl -L https://dot.net/v1/dotnet-install.sh | bash -e -s -- --install-dir /
  && dotnet sdk check
 
 # Install Azure CLI.
-curl -sL https://aka.ms/InstallAzureCLIDeb | /usr/bin/bash
+RUN curl -sL https://aka.ms/InstallAzureCLIDeb | /usr/bin/bash
 
 # Switch back to NB_USER to complete installs.
 RUN chown -R ${NB_UID} ${HOME}
